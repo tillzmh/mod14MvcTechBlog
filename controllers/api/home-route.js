@@ -81,3 +81,10 @@ router.get('/dashboard', async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+router.get('/new-blog-post', withAuth, async (req, res) => {
+    res.render('newBlogPost', {
+        pageDescription: 'Your Dashboard',
+        loggedIn: req.session.loggedIn
+    });
+});
