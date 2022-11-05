@@ -88,3 +88,35 @@ router.get('/new-blog-post', withAuth, async (req, res) => {
         loggedIn: req.session.loggedIn
     });
 });
+
+router.get('/blog-comments/:id', async (req, res) => {
+    try {
+        const postData = await Post.findOne({
+            include: [
+                {
+                    model: Comment,
+                    include: {
+                        model: User
+                    }
+                },
+                { model: User }
+            ],
+            where: {
+                id: req.params.id
+            }
+        });
+        const post = postData.get({ plain: true });
+        post.dateStringForPost = post.createdAt.toLocaleDateString();
+        for (var idx = 0; idx < post.comments.length; idx++) {
+            post.comments[idx].dateStringForComment = post.comments[idx].createdAt.toLocaleDateString();
+        }
+        res.render('blogComments', {
+            post,
+            loggedIn: req.session.loggedIn,
+            pageDescription: 'The Tech Blog'
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
