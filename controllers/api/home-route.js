@@ -50,3 +50,34 @@ router.get('/signup', (req, res) => {
         pageDescription: 'The Tech Blog'
     });
 });
+
+router.get('/dashboard', async (req, res) => {
+    if (!req.session.loggedIn) {
+        res.redirect('/login');
+        return;
+    }
+    try {
+        posts = [];
+        if (req.session.loggedIn) {
+            const postData = await Post.findAll({
+                where: {
+                    creator_id: req.session.loggedInId
+                }
+            });
+            posts = postData.map((post) =>
+                post.get({ plain: true })
+            );
+        }
+        for (var idx = 0; idx < posts.length; idx++) {
+            posts[idx].dateStringForPost = posts[idx].createdAt.toLocaleDateString();
+        }
+        res.render('dashboard', {
+            posts,
+            loggedIn: req.session.loggedIn,
+            pageDescription: 'Your Dashboard'
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
