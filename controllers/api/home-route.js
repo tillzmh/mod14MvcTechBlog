@@ -120,3 +120,25 @@ router.get('/blog-comments/:id', async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+router.get('/blog-update/:id', withAuth, isPostCreator, async (req, res) => {
+    try {
+        const postData = await Post.findOne({
+            where: {
+                id: req.params.id
+            }
+        });
+        const post = postData.get({ plain: true });
+
+        res.render('blogUpdate', {
+            post,
+            loggedIn: req.session.loggedIn,
+            pageDescription: 'Your Dashboard'
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+module.exports = router;
