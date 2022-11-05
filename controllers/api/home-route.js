@@ -39,3 +39,14 @@ router.get('/login', (req, res) => {
         pageDescription: 'The Tech Blog'
     });
 });
+
+router.get('/signup', (req, res) => {
+    if (req.session.loggedIn) {
+        res.redirect('/');
+        return;
+    }
+
+    res.render('signup', {
+        pageDescription: 'The Tech Blog'
+    });
+});
