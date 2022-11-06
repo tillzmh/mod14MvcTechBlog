@@ -1,24 +1,46 @@
-const createNewCommentFormHandler = async (event) => {
+const updatePostFormHandler = async (event) => {
     event.preventDefault();
 
-    const comment = document.querySelector('#comment-input').value;
+    
     const postId = window.location.href.split("/").pop();
-    const response = await fetch('/api/blog/new-comment', {
-        method: 'POST',
-        body: JSON.stringify({
-            blog_post_id: postId,
-            comment: comment
-        }),
+
+    const title = document.querySelector('#title-input').value;
+    const contents = document.querySelector('#content-input').value;
+
+    const response = await fetch('/api/blog/' + postId, {
+        method: 'PUT',
+        body: JSON.stringify({ title, contents }),
         headers: { 'Content-Type': 'application/json' },
     });
 
     if (response.ok) {
-        document.location.replace('/blog-comments/' + postId);
+        document.location.replace('/dashboard');
     } else {
-        alert('Failed to create blog post');
+        alert('Failed to update blog post');
     }
 };
 
 document
-    .querySelector('#new-comment-form')
-    .addEventListener('submit', createNewCommentFormHandler);
+    .querySelector('#blog-update-form')
+    .addEventListener('submit', updatePostFormHandler);
+
+const deletePostHandler = async (event) => {
+    event.preventDefault();
+
+    const postId = window.location.href.split("/").pop();
+
+    const response = await fetch('/api/blog/' + postId, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (response.ok) {
+        document.location.replace('/dashboard');
+    } else {
+        alert('Failed to delete blog post');
+    }
+};
+
+document
+    .querySelector('#delete-button')
+    .addEventListener('click', deletePostHandler);
