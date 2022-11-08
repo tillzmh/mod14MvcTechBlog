@@ -28,3 +28,21 @@ router.post('/new-comment', withAuth, async (req, res) => {
         res.status(400).json(err);
     }
 });
+
+router.put('/:id', withAuth, isPostCreator, async (req, res) => {
+    try {
+        const postData = await Post.update(
+            {
+                title: req.body.title,
+                contents: req.body.contents,
+            },
+            {
+                where: {
+                    id: req.params.id,
+                },
+            });
+        res.status(200).json(postData);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
