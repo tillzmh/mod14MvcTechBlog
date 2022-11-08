@@ -15,3 +15,16 @@ router.post('/new', withAuth, async (req, res) => {
         res.status(400).json(err);
     }
 });
+
+router.post('/new-comment', withAuth, async (req, res) => {
+    try {
+        const commentData = await Comment.create({
+            blog_post_id: req.body.blog_post_id,
+            comment: req.body.comment,
+            creator_id: req.session.loggedInId
+        });
+        res.status(200).json(commentData);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
