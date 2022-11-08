@@ -46,3 +46,19 @@ router.put('/:id', withAuth, isPostCreator, async (req, res) => {
         res.status(400).json(err);
     }
 });
+
+router.delete('/:id', withAuth, isPostCreator, async (req, res) => {
+    try {
+        const postData = await Post.destroy(
+            {
+                where: {
+                    id: req.params.id,
+                },
+            });
+        res.status(200).json(postData);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
+
+module.exports = router;
