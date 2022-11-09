@@ -14,5 +14,23 @@
     "nodejs": "^0.0.0",
     "sequelize": "^6.25.4",
     "session": "^0.1.0"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "mod14mvctechblog",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tillzmh/mod14MvcTechBlog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tillzmh/mod14MvcTechBlog/issues"
+  },
+  "homepage": "https://github.com/tillzmh/mod14MvcTechBlog#readme",
+  "description": ""
 }
