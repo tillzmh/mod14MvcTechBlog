@@ -16,4 +16,4 @@ if (process.env.JSESDB_URL){
     );
 }
 
-module.export = sequelize
+module.exports = sequelize
